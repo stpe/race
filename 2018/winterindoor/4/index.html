@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
+    <style>
+       body {
+         font-family: Helvetica, Arial, sans-serif;
+         font-size: 14px;
+       }
+
+      .lapcanvas {
+        width: 300px;
+        height: 18px;
+      }
+
+      .driver > div {
+        display: inline-block;
+      }
+
+      .driver > .info {
+        width: 150px;
+      }
+
+      .driver > .viz {
+
+      }
+
+      .driver > .pos {
+        width: 50px;
+        text-align: right;
+      }
+
+      .avg, .fastest, .total {
+        text-align: right;
+      }
+
+      .selected > td {
+        border-top: 2px solid #0081ff;
+        border-bottom: 2px solid #0081ff;
+      }
+
+      #filter {
+        border: 1px solid #ccc;
+        background-color: #eee;
+        padding: 25px;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      table {
+        width: 100%;
+      }
+
+      .ribbon {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+
+        /* Set the base colour */
+        background-color: #a00;
+
+        /* Set a gradient: transparent black at the top to almost-transparent black at the bottom */
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.15)));
+        background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+        background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+        background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+        background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+
+        /* Add a drop shadow */
+        -webkit-box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, 0.5);
+        box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, 0.5);
+
+        /* Set the text properties */
+        color: #fff;
+        font: 700 1em "Helvetica Neue", Helvetica, Arial, sans-serif;
+        line-height: 1.54em;
+        text-decoration: none;
+        text-shadow: 0 -.08em rgba(0, 0, 0, 0.5);
+        text-align: center;
+        text-indent: 0;
+
+        /* Set the layout properties */
+        padding: .15em .15em;
+        margin: .15em .15em;
+      }
+
+      .stitch {
+        /* Add "stitching" effect */
+        border-width: .08em .08em;
+        border-style: dotted;
+        border-color: #fff;
+        border-color: rgba(255, 255, 255, 0.7);
+
+        width: 200px;
+      }
+
+      .stitch > p {
+        margin: .6em 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="filter">
+      <p><b>Winter Indoor #4</b> 2WD 20/1-2018</p>
+
+      <select id="drivers" title="Visa alltid denna förare (för att kunna jämföra)"></select>
+      <select id="clubs" title="Visa förare endast från vald klubb"></select>
+      <select id="count" title="Visa endast detta antal förare">
+        <option value="">Visa...</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+      </select>
+      <select id="lapcount" title="Inkludera n snabbaste varv">
+        <option value="30">Varv (30)...</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+        <option value="75">75</option>
+        <option value="100">100</option>
+        <option value="150">125</option>
+        <option value="150">150</option>
+        <option value="150">175</option>
+        <option value="200">200 (alla)</option>
+      </select>
+
+      <p>Visualisering av de <i>n</i> snabbaste varven under tävlingen (<span style="color: rgb(54, 162, 235)">träning</span>, <span style="color: rgb(255, 205, 86)">kval</span>, <span style="color: rgb(255, 99, 132)">final</span>). <a style="text-decoration: none" href="mailto:stefpet@gmail.com">@</a></p>
+      <a href="https://www.rc-championship.info/race/race.xhtml?race=1368">
+      <div class="ribbon">
+        <div class="stitch">
+          <p>Sommarcupen Västerort</p>
+
+          <p>12 maj</p>
+
+          <p>Anmäl dig nu!</p>
+        </div>
+      </div>
+      </a>
+    </div>
+    <div id="main">
+      <table>
+        <thead>
+          <th>Driver</th>
+          <th></th>
+          <th>Average Lap</th>
+          <th>Fastest Lap</th>
+          <th>Laps</th>
+        </thead>
+        <tbody id="tablebody">
+        </tbody>
+      </table>
+    </div>
+
+    <script src="laptimes_data.js"></script>
+    <script src="laptimes.min.js"></script>
+  </body>
+</html>
